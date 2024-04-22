@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './CreateAccount.css'; // Make sure you have the corresponding CSS file
+import './CreateAccount.css'; 
 
 const CreateAccount = () => {
   const [email, setEmail] = useState('');
@@ -11,9 +11,9 @@ const CreateAccount = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Here you would handle creating an account
+    // We can handle creating an account
     console.log(email, username, password, confirmPassword, dob, gender);
-    // You should also implement validation and password confirmation checks
+    // implementations for validation and password confirmation checks
   };
 
   return (

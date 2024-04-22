@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Login.css'; // Ensure this is the path to your CSS for the login page
+import './Login.css'; 
 
 const LoginPage = () => {
   // State for the username and password
