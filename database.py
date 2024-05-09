@@ -84,6 +84,29 @@ def get_image_data(image_path):
     except FileNotFoundError:
         print(f"Error: File not found - {image_path}")
         return None
+        
+def update_aircraft_layout(db, aircraft_id, image_path):
+    """Updates the layout image of a specific aircraft document."""
+    aircraft_collection = db.aircraft
+    image_data = get_image_data(image_path)
+    if image_data:
+        result = aircraft_collection.update_one(
+            {'AircraftID': aircraft_id},
+            {'$set': {'Layout': image_data}}
+        )
+        if result.modified_count > 0:
+            print(f"Successfully updated layout for aircraft ID {aircraft_id}.")
+        else:
+            print(f"No aircraft found with ID {aircraft_id} to update.")
+    else:
+        print(f"Failed to update layout for aircraft ID {aircraft_id} due to image loading issues.")
+
+def user_add_layout(db):
+    """Allows the user to add an image to an aircraft entry."""
+    aircraft_id = int(input("Enter the Aircraft ID to update: "))
+    image_path = input("Enter the full path to the image file: ")
+    update_aircraft_layout(db, aircraft_id, image_path)
+
 # User data insertion function
 
 
