@@ -77,7 +77,13 @@ def insert_roster_entry(db, roster_entry_data):
     roster_entry_collection = db.roster_entry
     roster_entry_collection.insert_one(roster_entry_data)
 
-
+def get_image_data(image_path):
+    try:
+        with open(image_path, 'rb') as file:
+            return bson.Binary(file.read())
+    except FileNotFoundError:
+        print(f"Error: File not found - {image_path}")
+        return None
 # User data insertion function
 
 
@@ -100,24 +106,33 @@ def main():
         insert_user(db, user_data)
     
 
-    
-
+    layout_images = {
+        1: r'C:\Users\Randa Amin\OneDrive\Desktop\CS308\layout1.png',
+        2: r'C:\Users\Randa Amin\OneDrive\Desktop\CS308\layout1.png',
+        3: r'C:\Users\Randa Amin\OneDrive\Desktop\CS308\layout1.png',
+        # Add paths for all aircraft
+    }
     aircraft_data = [
-        {"_id": 1, "AircraftID": 1, "AircraftType": "Boeing 747", "Manufacturer": "Boeing", "Layout": "@layout1", "Capacity": 500, "Model": "747-400"},
-        {"_id": 2, "AircraftID": 2, "AircraftType": "Airbus A320", "Manufacturer": "Airbus", "Layout": "@layout1", "Capacity": 200, "Model": "A320neo"},
-        {"_id": 3, "AircraftID": 3, "AircraftType": "Boeing 777", "Manufacturer": "Boeing", "Layout": "@layout1", "Capacity": 400, "Model": "777-300ER"},
-        {"_id": 4, "AircraftID": 4, "AircraftType": "Airbus A380", "Manufacturer": "Airbus", "Layout": "@layout1", "Capacity": 800, "Model": "A380-800"},
-        {"_id": 5, "AircraftID": 5, "AircraftType": "Boeing 737", "Manufacturer": "Boeing", "Layout": "@layout1", "Capacity": 150, "Model": "737-800"},
-        {"_id": 6, "AircraftID": 6, "AircraftType": "Airbus A350", "Manufacturer": "Airbus", "Layout": "@layout1", "Capacity": 300, "Model": "A350-900"},
-        {"_id": 7, "AircraftID": 7, "AircraftType": "Embraer E175", "Manufacturer": "Embraer", "Layout": "@layout1", "Capacity": 80, "Model": "E175"},
-        {"_id": 8, "AircraftID": 8, "AircraftType": "Bombardier CRJ900", "Manufacturer": "Bombardier", "Layout": "@layout1", "Capacity": 90, "Model": "CRJ900"},
-        {"_id": 9, "AircraftID": 9, "AircraftType": "Boeing 787", "Manufacturer": "Boeing", "Layout": "@layout1", "Capacity": 250, "Model": "787-9"},
-        {"_id": 10, "AircraftID": 10, "AircraftType": "Airbus A330", "Manufacturer": "Airbus", "Layout": "@layout1", "Capacity": 300, "Model": "A330-300"}
+        {"_id": 1, "AircraftID": 1, "AircraftType": "Boeing 747", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 500, "Model": "747-400"},
+        {"_id": 2, "AircraftID": 2, "AircraftType": "Airbus A320", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 200, "Model": "A320neo"},
+        {"_id": 3, "AircraftID": 3, "AircraftType": "Boeing 777", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 400, "Model": "777-300ER"},
+        {"_id": 4, "AircraftID": 4, "AircraftType": "Airbus A380", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 800, "Model": "A380-800"},
+        {"_id": 5, "AircraftID": 5, "AircraftType": "Boeing 737", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 150, "Model": "737-800"},
+        {"_id": 6, "AircraftID": 6, "AircraftType": "Airbus A350", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 300, "Model": "A350-900"},
+        {"_id": 7, "AircraftID": 7, "AircraftType": "Embraer E175", "Manufacturer": "Embraer", "Layout": get_image_data(layout_images[1]), "Capacity": 80, "Model": "E175"},
+        {"_id": 8, "AircraftID": 8, "AircraftType": "Bombardier CRJ900", "Manufacturer": "Bombardier", "Layout": get_image_data(layout_images[1]), "Capacity": 90, "Model": "CRJ900"},
+        {"_id": 9, "AircraftID": 9, "AircraftType": "Boeing 787", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 250, "Model": "787-9"},
+        {"_id": 10, "AircraftID": 10, "AircraftType": "Airbus A330", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 300, "Model": "A330-300"}
     ]
+
+  for aircraft in aircraft_data:
+        print("Inserting Aircraft:", aircraft["AircraftID"])
+        if aircraft["Layout"] is not None:  # Only insert if the layout image was found and loaded
+            inserted_id = insert_aircraft(db, aircraft)
+            print(f"Aircraft ID {aircraft['AircraftID']} inserted with ID: {inserted_id}")
+        else:
+            print(f"Failed to insert Aircraft ID {aircraft['AircraftID']}: Layout image not found")
     
-    for aircraft in aircraft_data:
-        print("Inserting Aircraft:", aircraft)
-        inserted_id = insert_aircraft(db, aircraft)
 
     passenger_data = [
         {"PassportNumber": 12345678, "CustomerName": "John Doe", "Seat_Assigned": "12A", "Disabilities": "None", "Age": 25, "FlightNumber": "FL123", "PhoneNumber": 5551234567},
