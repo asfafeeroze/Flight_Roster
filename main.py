@@ -95,7 +95,37 @@ def input_document_data(prompts):
         data[key] = input(prompt)  # Input values for each key based on the prompt.
     return data
 
+def find_flights_by_airports(db, departure_airport, arrival_airport, flight_date):
+    """Retrieve flights from the MongoDB collection based on specified departure and arrival airports on a given date."""
+    flight_information_collection = db.flight_information
+    flights = list(flight_information_collection.find({
+        "DepartureAirport": departure_airport,
+        "ArrivalAirport": arrival_airport,
+        "FlightDate": flight_date  # Assuming FlightDate is stored as 'YYYY-MM-DD'
+    }))
+    return flights
 
+def find_flights_by_departure_airport(db, departure_airport, flight_date, arrival_airport=None):
+    """Retrieve flights from the MongoDB collection based on specified departure airport, date, and optionally arrival airport."""
+    flight_information_collection = db.flight_information
+    query = {
+        "DepartureAirport": departure_airport,
+        "FlightDate": flight_date  # Assuming FlightDate is stored in a consistent format, e.g., 'YYYY-MM-DD'
+    }
+    if arrival_airport:
+        query["ArrivalAirport"] = arrival_airport
+    flights = list(flight_information_collection.find(query))
+    return flights
+def find_flight_by_number(db, flight_number):
+    """Retrieve flight information from the MongoDB collection based on the specified flight number."""
+    flight_information_collection = db.flight_information
+    flight = flight_information_collection.find_one({"FlightNumber": flight_number})
+    return flight
+def find_passengers_by_flight_number(db, flight_number):
+    """Retrieve all passenger information from the MongoDB collection based on the specified flight number."""
+    passenger_info_collection = db.passenger_info
+    passengers = list(passenger_info_collection.find({"FlightNumber": flight_number}))
+    return passengers
 def main():
     db = connectDB()
     #parts for adding the information to MongoDB. 
