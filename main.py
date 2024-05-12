@@ -131,6 +131,11 @@ def delete_aircraft_by_id(db, aircraft_id):
     aircraft_collection = db.aircraft
     result = aircraft_collection.delete_one({"AircraftID": aircraft_id})
     return result.deleted_count  # Returns the count of documents deleted
+def delete_flight_by_number(db, flight_number):
+    """Delete a flight record from the MongoDB collection based on the specified flight number."""
+    flight_information_collection = db.flight_information
+    result = flight_information_collection.delete_one({"FlightNumber": flight_number})
+    return result.deleted_count  # Returns the count of documents deleted
 
 def main():
     db = connectDB()
