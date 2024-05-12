@@ -126,6 +126,12 @@ def find_passengers_by_flight_number(db, flight_number):
     passenger_info_collection = db.passenger_info
     passengers = list(passenger_info_collection.find({"FlightNumber": flight_number}))
     return passengers
+def delete_aircraft_by_id(db, aircraft_id):
+    """Delete an aircraft record from the MongoDB collection based on the specified aircraft ID."""
+    aircraft_collection = db.aircraft
+    result = aircraft_collection.delete_one({"AircraftID": aircraft_id})
+    return result.deleted_count  # Returns the count of documents deleted
+
 def main():
     db = connectDB()
     #parts for adding the information to MongoDB. 
