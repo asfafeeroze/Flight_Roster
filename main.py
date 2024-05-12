@@ -1,12 +1,5 @@
 from connect import connectDB
 
-# Function to get all collections in the database
-# def retrieve_all_from_collection(db, collection_name):
-#     """Retrieves all documents from the specified collection."""
-#     collection = db[collection_name]
-#     documents = list(collection.find())
-#     return documents
-
 # Insert functions
 
 def insert_cabin_crew(db, cabin_crew_data):
@@ -183,6 +176,126 @@ def main():
     insert_roster_entry(db, roster_entry_data)
 
 
+# QUERIES
+# Function to get all collections in the database
+def retrieve_all_from_collection(db, collection_name):
+    """Retrieves all documents from the specified collection."""
+    collection = db[collection_name]
+    documents = list(collection.find())
+    return documents
+
+def get_user_by_email(db, email):
+    """Retrieve a user document by email."""
+    user_collection = db.users
+    user_document = user_collection.find_one({"Email": email})
+    return user_document
+
+def find_user_by_name(db, name):
+    """Find user(s) by name."""
+    user_collection = db.users
+    users = list(user_collection.find({"Name": name}))
+    return users
+
+
+def update_user_email(db, user_id, new_email):
+    """Update user's email based on user_id."""
+    user_collection = db.users
+    result = user_collection.update_one({"_id": user_id}, {"$set": {"Email": new_email}})
+    return result.modified_count
+
+def delete_user_and_related_data_by_id(db, user_id):
+    """Delete a user (by ID) and all related data across various collections."""
+    # Delete user from 'users' collection
+    users_collection = db.users
+    user_delete_result = users_collection.delete_one({"_id": user_id})
+
+    # Assuming the user ID is linked in other collections:
+    # Delete related passenger info
+    passenger_info_collection = db.passenger_info
+    passenger_info_delete_result = passenger_info_collection.delete_many({"UserID": user_id})
+
+    # Delete related admin data, if necessary
+    admin_collection = db.admins
+    admin_delete_result = admin_collection.delete_many({"UserID": user_id})
+
+    # Other deletions can be added here similarly
+
+    # Return a summary of deletion results
+    return {
+        "User Deleted": user_delete_result.deleted_count,
+        "Passenger Info Deleted": passenger_info_delete_result.deleted_count,
+        "Admin Data Deleted": admin_delete_result.deleted_count,
+        # Include additional collections if necessary
+    }
+
+def delete_user_and_related_data_by_name(db, name):
+    """Delete users and all related data across various collections by name."""
+    users_collection = db.users
+    # Find all users with the given name to delete them and their related data
+    user_documents = users_collection.find({"Name": name})
+
+    deleted_users_count = 0
+    passenger_info_deleted_count = 0
+    admin_data_deleted_count = 0
+
+    for user_doc in user_documents:
+        user_id = user_doc['_id']
+
+        # Delete user
+        user_delete_result = users_collection.delete_one({"_id": user_id})
+        deleted_users_count += user_delete_result.deleted_count
+
+        # Assuming the user ID is linked in other collections:
+        # Delete related passenger info
+        passenger_info_collection = db.passenger_info
+        passenger_info_delete_result = passenger_info_collection.delete_many({"UserID": user_id})
+        passenger_info_deleted_count += passenger_info_delete_result.deleted_count
+
+        # Delete related admin data, if necessary
+        admin_collection = db.admins
+        admin_delete_result = admin_collection.delete_many({"UserID": user_id})
+        admin_data_deleted_count += admin_delete_result.deleted_count
+
+    # Return a summary of deletion results
+    if deleted_users_count == 0:
+        return "No user found with the provided name."
+
+    return {
+        "Users Deleted": deleted_users_count,
+        "Passenger Info Deleted": passenger_info_deleted_count,
+        "Admin Data Deleted": admin_data_deleted_count,
+    }
+
+
+def delete_flight_roster_and_related_data(db, flight_number):
+    """Delete a flight roster entry and all related data."""
+    # Delete the roster entry
+    roster_collection = db.roster_entry
+    roster_delete_result = roster_collection.delete_one({"FlightNumber": flight_number})
+
+    if roster_delete_result.deleted_count == 0:
+        return "No roster found with the provided flight number."
+
+    # Assuming related data needs to be deleted or updated
+    # Delete related flight information
+    flight_info_collection = db.flight_information
+    flight_info_delete_result = flight_info_collection.delete_many({"FlightNumber": flight_number})
+
+    # Delete or update crew assignments
+    crew_collection = db.crew_assignments
+    crew_delete_result = crew_collection.delete_many({"FlightNumber": flight_number})
+
+    # Delete or update passenger bookings
+    passenger_booking_collection = db.passenger_bookings
+    passenger_booking_delete_result = passenger_booking_collection.delete_many({"FlightNumber": flight_number})
+
+    # Return a summary of deletion results
+    return {
+        "Roster Deleted": roster_delete_result.deleted_count,
+        "Flight Info Deleted": flight_info_delete_result.deleted_count,
+        "Crew Assignments Deleted": crew_delete_result.deleted_count,
+        "Passenger Bookings Deleted": passenger_booking_delete_result.deleted_count,
+    }
 
 
 if __name__ == '__main__':
