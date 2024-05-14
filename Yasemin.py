@@ -32,6 +32,12 @@ def insert_roster_entry(db, roster_entry_data):
     print(f"Inserted roster entry with ID: {result.inserted_id}")
 
 
+def insert_admin(db, admin_data):
+    admin_collection = db.Admin
+    result = admin_collection.insert_one(admin_data)
+    print(f"Inserted admin with ID: {result.inserted_id}")
+
+
 if __name__ == '__main__':
     db = connectDB()
 
@@ -93,6 +99,19 @@ if __name__ == '__main__':
         {"RosterID": 10, "PilotID": 10, "CrewID": 10, "FlightNumber": "FL001", "Date": "2024-05-10"}
     ]
 
+    admin_data = [
+        {"AdminName": "Admin1", "Email": "user1@example.com", "Password": "password1"},
+        {"AdminName": "Admin2", "Email": "user2@example.com", "Password": "password2"},
+        {"AdminName": "Admin3", "Email": "user3@example.com", "Password": "password3"},
+        {"AdminName": "Admin4", "Email": "user4@example.com", "Password": "password4"},
+        {"AdminName": "Admin5", "Email": "user5@example.com", "Password": "password5"},
+        {"AdminName": "Admin6", "Email": "user6@example.com", "Password": "password6"},
+        {"AdminName": "Admin7", "Email": "user7@example.com", "Password": "password7"},
+        {"AdminName": "Admin8", "Email": "user8@example.com", "Password": "password8"},
+        {"AdminName": "Admin9", "Email": "user9@example.com", "Password": "password9"},
+        {"AdminName": "Admin10", "Email": "user10@example.com", "Password": "password10"}
+    ]
+
     insert_aircraft(db, aircraft_data)
 
     insert_flight_information(db, flight_information_data)
@@ -105,3 +124,7 @@ if __name__ == '__main__':
 
     for data in roster_entry_data:
         insert_roster_entry(db, data)
+
+    for data in admin_data:
+        insert_admin(db, data)
+
