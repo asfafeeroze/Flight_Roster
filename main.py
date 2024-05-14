@@ -139,21 +139,7 @@ def delete_flight_by_number(db, flight_number):
 def main():
     db = connectDB()
     #parts for adding the information to MongoDB. 
- # users_data = [
- #        {"_id": 1,"Email": "john.doe@example.com", "Password": "johndoe123"},
- #        {"_id": 2,"Email": "jane.smith@example.com", "Password": "janepass123"},
- #        {"_id": 3,"Email": "michael.jones@example.com", "Password": "mikepass456"},
- #        {"_id": 4,"Email": "emily.brown@example.com", "Password": "emilypass789"},
- #        {"_id": 5,"Email": "david.wilson@example.com", "Password": "davidpass321"},
- #        {"_id": 6,"Email": "sarah.miller@example.com", "Password": "sarahpass654"},
- #        {"_id": 7,"Email": "james.taylor@example.com", "Password": "jamespass987"},
- #        {"_id": 8,"Email": "laura.clark@example.com", "Password": "laurapass123"},
- #        {"_id": 9,"Email": "robert.white@example.com", "Password": "robertpass456"},
- #        {"_id": 10,"Email": "mary.hall@example.com", "Password": "marypass789"}
- #    ]
- #    for user_data in users_data:
- #        insert_user(db, user_data)
-    
+
 
  #    layout_images = {
  #        1: r'C:\Users\Randa Amin\OneDrive\Desktop\CS308\layout1.png',
@@ -183,22 +169,63 @@ def main():
  #            print(f"Failed to insert Aircraft ID {aircraft['AircraftID']}: Layout image not found")
     
 
- #    passenger_data = [
- #        {"PassportNumber": 12345678, "CustomerName": "John Doe", "Seat_Assigned": "12A", "Disabilities": "None", "Age": 25, "FlightNumber": "FL123", "PhoneNumber": 5551234567},
- #        {"PassportNumber": 23456789, "CustomerName": "Jane Smith", "Seat_Assigned": "13B", "Disabilities": "Mobility Challenges", "Age": 30, "FlightNumber": "FL124", "PhoneNumber": 5552345678},
- #        {"PassportNumber": 34567890, "CustomerName": "Alice Johnson", "Seat_Assigned": "14C", "Disabilities": "Visual Impairment", "Age": 28, "FlightNumber": "FL125", "PhoneNumber": 5553456789},
- #        {"PassportNumber": 45678901, "CustomerName": "Bob Brown", "Seat_Assigned": "15D", "Disabilities": "None", "Age": 45, "FlightNumber": "FL126", "PhoneNumber": 5554567890},
- #        {"PassportNumber": 56789012, "CustomerName": "Carol White", "Seat_Assigned": "16E", "Disabilities": "Hearing Loss", "Age": 38, "FlightNumber": "FL127", "PhoneNumber": 5555678901},
- #        {"PassportNumber": 67890123, "CustomerName": "Ahmad Ali", "Seat_Assigned": "21A", "Disabilities": "None", "Age": 34, "FlightNumber": "FL201", "PhoneNumber": 5566789012},
- #        {"PassportNumber": 78901234, "CustomerName": "Layla Hussein", "Seat_Assigned": "22B", "Disabilities": "None", "Age": 29, "FlightNumber": "FL202", "PhoneNumber": 5567890123},
- #        {"PassportNumber": 89012345, "CustomerName": "Mohammed Farah", "Seat_Assigned": "23C", "Disabilities": "Visual Impairment", "Age": 42, "FlightNumber": "FL203", "PhoneNumber": 5568901234},
- #        {"PassportNumber": 90123456, "CustomerName": "Fatima Zahra", "Seat_Assigned": "24D", "Disabilities": "None", "Age": 27, "FlightNumber": "FL204", "PhoneNumber": 5569012345},
- #        {"PassportNumber": 12378905, "CustomerName": "Yusuf Omar", "Seat_Assigned": "25E", "Disabilities": "Mobility Challenges", "Age": 36, "FlightNumber": "FL205", "PhoneNumber": 5560123456}
- #    ]
+# # Sample passenger data with the specified attributes
+  # passenger_data = [
+    #     {
+    #         "Email": "john.doe@example.com", "Password": "password123", "PassportNumber": 12345678,
+    #         "CustomerName": "John Doe", "Seat_Assigned": "12A", "Disabilities": "None", "Age": 25,
+    #         "FlightNumber": "FL123", "PhoneNumber": 5551234567
+    #     },
+    #     {
+    #         "Email": "jane.smith@example.com", "Password": "password234", "PassportNumber": 23456789,
+    #         "CustomerName": "Jane Smith", "Seat_Assigned": "13B", "Disabilities": "Mobility Challenges", "Age": 30,
+    #         "FlightNumber": "FL124", "PhoneNumber": 5552345678
+    #     },
+    #     {
+    #         "Email": "alice.johnson@example.com", "Password": "password345", "PassportNumber": 34567890,
+    #         "CustomerName": "Alice Johnson", "Seat_Assigned": "14C", "Disabilities": "Visual Impairment", "Age": 28,
+    #         "FlightNumber": "FL125", "PhoneNumber": 5553456789
+    #     },
+    #     {
+    #         "Email": "bob.brown@example.com", "Password": "password456", "PassportNumber": 45678901,
+    #         "CustomerName": "Bob Brown", "Seat_Assigned": "15D", "Disabilities": "None", "Age": 45,
+    #         "FlightNumber": "FL126", "PhoneNumber": 5554567890
+    #     },
+    #     {
+    #         "Email": "carol.white@example.com", "Password": "password567", "PassportNumber": 56789012,
+    #         "CustomerName": "Carol White", "Seat_Assigned": "16E", "Disabilities": "Hearing Loss", "Age": 38,
+    #         "FlightNumber": "FL127", "PhoneNumber": 5555678901
+    #     },
+    #     {
+    #         "Email": "ahmad.ali@example.com", "Password": "password678", "PassportNumber": 67890123,
+    #         "CustomerName": "Ahmad Ali", "Seat_Assigned": "21A", "Disabilities": "None", "Age": 34,
+    #         "FlightNumber": "FL201", "PhoneNumber": 5566789012
+    #     },
+    #     {
+    #         "Email": "layla.hussein@example.com", "Password": "password789", "PassportNumber": 78901234,
+    #         "CustomerName": "Layla Hussein", "Seat_Assigned": "22B", "Disabilities": "None", "Age": 29,
+    #         "FlightNumber": "FL202", "PhoneNumber": 5567890123
+    #     },
+    #     {
+    #         "Email": "mohammed.farah@example.com", "Password": "password890", "PassportNumber": 89012345,
+    #         "CustomerName": "Mohammed Farah", "Seat_Assigned": "23C", "Disabilities": "Visual Impairment", "Age": 42,
+    #         "FlightNumber": "FL203", "PhoneNumber": 5568901234
+    #     },
+    #     {
+    #         "Email": "fatima.zahra@example.com", "Password": "password901", "PassportNumber": 90123456,
+    #         "CustomerName": "Fatima Zahra", "Seat_Assigned": "24D", "Disabilities": "None", "Age": 27,
+    #         "FlightNumber": "FL204", "PhoneNumber": 5569012345
+    #     },
+    #     {
+    #         "Email": "yusuf.omar@example.com", "Password": "password012", "PassportNumber": 12378905,
+    #         "CustomerName": "Yusuf Omar", "Seat_Assigned": "25E", "Disabilities": "Mobility Challenges", "Age": 36,
+    #         "FlightNumber": "FL205", "PhoneNumber": 5560123456
+    #     }
+    # ]
 
- #    for passenger in passenger_data:
- #        print("Inserting Passenger:", passenger["CustomerName"])
- #        inserted_id = insert_passenger_info(db, passenger)
+ #     for passenger in passenger_data:
+ #         inserted_id = insert_passenger_info(db, passenger)
+ #         print(f"Inserted Passenger ID: {inserted_id}")
  #    flight_data = [
  #        {"FlightNumber": "FL001", "DepartureAirport": "JFK International Airport", "ArrivalAirport": "Los Angeles International Airport", "FlightDate": "2024-05-01", "DepartureTime": "08:00:00", "ArrivalTime": "11:30:00"},
  #        {"FlightNumber": "FL002", "DepartureAirport": "Heathrow Airport", "ArrivalAirport": "Charles de Gaulle Airport", "FlightDate": "2024-05-02", "DepartureTime": "10:30:00", "ArrivalTime": "13:45:00"},
