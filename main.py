@@ -278,6 +278,22 @@ def main():
  #        {"RosterID": 10, "PilotID": 10, "CrewID": 10, "FlightNumber": "FL001", "Date": "2024-05-10"}
  #    ]
 
+ #    admin_data = [
+ #        {"AdminName": "Admin1", "Email": "user1@example.com", "Password": "password1"},
+ #        {"AdminName": "Admin2", "Email": "user2@example.com", "Password": "password2"},
+ #        {"AdminName": "Admin3", "Email": "user3@example.com", "Password": "password3"},
+ #        {"AdminName": "Admin4", "Email": "user4@example.com", "Password": "password4"},
+ #        {"AdminName": "Admin5", "Email": "user5@example.com", "Password": "password5"},
+ #        {"AdminName": "Admin6", "Email": "user6@example.com", "Password": "password6"},
+ #        {"AdminName": "Admin7", "Email": "user7@example.com", "Password": "password7"},
+ #        {"AdminName": "Admin8", "Email": "user8@example.com", "Password": "password8"},
+ #        {"AdminName": "Admin9", "Email": "user9@example.com", "Password": "password9"},
+ #        {"AdminName": "Admin10", "Email": "user10@example.com", "Password": "password10"}
+ #    ]
+
+ #    for data in admin_data:
+ #        insert_admin(db, data)
+   
  #    for pilots_data in pilot_data:
  #        insert_pilot(db, pilots_data)
 
