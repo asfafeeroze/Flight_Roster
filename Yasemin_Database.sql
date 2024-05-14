@@ -22,6 +22,20 @@ CREATE TABLE IF NOT EXISTS RosterEntry (
     FOREIGN KEY (FlightNumber) REFERENCES FlightInformation(FlightNumber)
 );
 
+CREATE TABLE User (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    Password VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Admin (
+    AdminID INT AUTO_INCREMENT PRIMARY KEY,
+    AdminName VARCHAR(100) NOT NULL,
+    UserID INT UNIQUE,
+    FOREIGN KEY (UserID) REFERENCES User(UserID) ON DELETE CASCADE
+);
+
+
 INSERT INTO Pilot (PilotName, LicenseNumber) VALUES 
     ("Jack Miller", "12345"),
     ("Brian Taylor", "67890"),
@@ -57,3 +71,27 @@ INSERT INTO RosterEntry (PilotID, CrewID, FlightNumber, Date) VALUES
     (8, 8, 'FL008', '2024-05-08'),
     (9, 9, 'FL009', '2024-05-09'),
     (10, 10, 'FL010', '2024-05-10');
+
+INSERT INTO User (Email, Password) VALUES
+    ('user1@example.com', 'password1'),
+    ('user2@example.com', 'password2'),
+    ('user3@example.com', 'password3'),
+    ('user4@example.com', 'password4'),
+    ('user5@example.com', 'password5'),
+    ('user6@example.com', 'password6'),
+    ('user7@example.com', 'password7'),
+    ('user8@example.com', 'password8'),
+    ('user9@example.com', 'password9'),
+    ('user10@example.com', 'password10');
+
+INSERT INTO Admin (AdminName, UserID) VALUES
+    ('Admin1', 1),
+    ('Admin2', 2),
+    ('Admin3', 3),
+    ('Admin4', 4),
+    ('Admin5', 5),
+    ('Admin6', 6),
+    ('Admin7', 7),
+    ('Admin8', 8),
+    ('Admin9', 9),
+    ('Admin10', 10);
