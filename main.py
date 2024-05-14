@@ -238,7 +238,11 @@ def main():
  #        {"FlightNumber": "FL009", "DepartureAirport": "O.R. Tambo International Airport", "ArrivalAirport": "Abu Dhabi International Airport", "FlightDate": "2024-05-09", "DepartureTime": "15:00:00", "ArrivalTime": "19:15:00"},
  #        {"FlightNumber": "FL010", "DepartureAirport": "Cape Town International Airport", "ArrivalAirport": "Kuwait International Airport", "FlightDate": "2024-05-10", "DepartureTime": "17:30:00", "ArrivalTime": "21:45:00"}
  #    ]
-
+    
+ #    for flight in flight_data:
+ #        print("Inserting Flight:", flight["FlightNumber"])
+ #        inserted_id = insert_flight_information(db, flight)
+        
  #    pilot_data = [
  #        {"PilotID": 1, "PilotName": "Jack Miller", "LicenseNumber": "12345"},
  #        {"PilotID": 2, "PilotName": "Brian Taylor", "LicenseNumber": "67890"},
@@ -252,6 +256,9 @@ def main():
  #        {"PilotID": 10, "PilotName": "David Martinez", "LicenseNumber": "77777"}
  #    ]
 
+ #    for pilots_data in pilot_data:
+ #        insert_pilot(db, pilots_data)
+    
  #    cabin_crew_data = [
  #        {"CrewID": 1, "Role": "First Officer", "MemberName": "Sarah Wilson", "AssignedSeat": "A1"},
  #        {"CrewID": 2, "Role": "Flight Attendant", "MemberName": "Jessica Johnson", "AssignedSeat": "B2"},
@@ -265,6 +272,9 @@ def main():
  #        {"CrewID": 10, "Role": "Junior Purser", "MemberName": "Tyler Hall", "AssignedSeat": "J10"}
  #    ]
 
+ #    for crew_data in cabin_crew_data:
+ #        insert_cabin_crew(db, crew_data)
+    
  #    roster_entry_data = [
  #        {"RosterID": 1, "PilotID": 1, "CrewID": 1, "FlightNumber": "FL001", "Date": "2024-05-01"},
  #        {"RosterID": 2, "PilotID": 2, "CrewID": 2, "FlightNumber": "FL001", "Date": "2024-05-02"},
@@ -278,6 +288,9 @@ def main():
  #        {"RosterID": 10, "PilotID": 10, "CrewID": 10, "FlightNumber": "FL001", "Date": "2024-05-10"}
  #    ]
 
+ #    for entry_data in roster_entry_data:
+ #        insert_roster_entry(db, entry_data)
+    
  #    admin_data = [
  #        {"AdminName": "Admin1", "Email": "user1@example.com", "Password": "password1"},
  #        {"AdminName": "Admin2", "Email": "user2@example.com", "Password": "password2"},
@@ -293,20 +306,8 @@ def main():
 
  #    for data in admin_data:
  #        insert_admin(db, data)
-   
- #    for pilots_data in pilot_data:
- #        insert_pilot(db, pilots_data)
 
- #    for crew_data in cabin_crew_data:
- #        insert_cabin_crew(db, crew_data)
-
- #    for entry_data in roster_entry_data:
- #        insert_roster_entry(db, entry_data) 
     
- #    for flight in flight_data:
- #        print("Inserting Flight:", flight["FlightNumber"])
- #        inserted_id = insert_flight_information(db, flight)
-
     # Define prompts for each collection
     user_prompts = {
         "Email": "Enter User Email: ",
