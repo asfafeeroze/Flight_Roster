@@ -355,6 +355,7 @@ def main():
         "ArrivalTime": "Enter Arrival Time (ISO format): ",
         "Date": "Enter Date (YYYY-MM-DD): ",
         "AircraftID": f"Automatically filled Aircraft ID: {aircraft_id}",
+        "Price": "Enter Flight Price: ",  # price
     }
 
     pilot_prompts = {
