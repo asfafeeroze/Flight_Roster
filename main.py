@@ -242,7 +242,32 @@ def main():
  #    for flight in flight_data:
  #        print("Inserting Flight:", flight["FlightNumber"])
  #        inserted_id = insert_flight_information(db, flight)
+        flights_collection = db["flight_information"]
+
+# # adding the flight price data. 
+#     flight_data = [
+#         {"FlightNumber": "FL001", "Price": 300},
+#         {"FlightNumber": "FL002", "Price": 150},
+#         {"FlightNumber": "FL003", "Price": 500},
+#         {"FlightNumber": "FL004", "Price": 450},
+#         {"FlightNumber": "FL005", "Price": 200},
+#         {"FlightNumber": "FL006", "Price": 250},
+#         {"FlightNumber": "FL007", "Price": 350},
+#         {"FlightNumber": "FL008", "Price": 400},
+#         {"FlightNumber": "FL009", "Price": 600},
+#         {"FlightNumber": "FL010", "Price": 550}
+#     ]
+
+# # Update each flight document with the new price
+#     for flight in flight_data:
+#         flight_number = flight["FlightNumber"]
+#         price = flight["Price"]
         
+#         result = flights_collection.update_one(
+#             {"FlightNumber": flight_number},  # Find the document by FlightNumber
+#             {"$set": {"Price": price}}        # Set the new Price field
+#     )
+    
  #    pilot_data = [
  #        {"PilotID": 1, "PilotName": "Jack Miller", "LicenseNumber": "12345"},
  #        {"PilotID": 2, "PilotName": "Brian Taylor", "LicenseNumber": "67890"},
