@@ -18,10 +18,34 @@ router.post('/flights', async (req, res) => {
   }
 });
 
-// GET route to retrieve all flights
+// GET route to retrieve all flights with optional filtering and sorting
 router.get('/flights', async (req, res) => {
+  const { source, destination, vehicleType, sort, order = 'ASC' } = req.query;
+  let query = "SELECT * FROM flights";
+  let conditions = [];
+  let params = [];
+
+  if (source) {
+    conditions.push("source_id = ?");
+    params.push(source);
+  }
+  if (destination) {
+    conditions.push("destination_id = ?");
+    params.push(destination);
+  }
+  if (vehicleType) {
+    conditions.push("vehicle_type_id = ?");
+    params.push(vehicleType);
+  }
+  if (conditions.length) {
+    query += " WHERE " + conditions.join(" AND ");
+  }
+  if (sort) {
+    query += ` ORDER BY ${sort} ${order}`;
+  }
+
   try {
-    const [flights] = await db.query(`SELECT * FROM flights`);
+    const [flights] = await db.query(query, params);
     res.status(200).send(flights);
   } catch (error) {
     res.status(500).send(error.message);
@@ -33,7 +57,7 @@ router.get('/flights/:flightNumber', async (req, res) => {
   try {
     const [flights] = await db.query(`SELECT * FROM flights WHERE flight_number = ?`, [req.params.flightNumber]);
     if (flights.length === 0) {
-      return res.status(404).send();
+      return res.status(404).send('Flight not found');
     }
     res.send(flights[0]);
   } catch (error) {
@@ -44,16 +68,16 @@ router.get('/flights/:flightNumber', async (req, res) => {
 // PATCH route to update a flight by flightNumber
 router.patch('/flights/:flightNumber', async (req, res) => {
   const updates = req.body;
+  const keys = Object.keys(updates);
+  const values = keys.map(key => updates[key]);
+
+  const setString = keys.map(key => `${key} = ?`).join(', ');
+  values.push(req.params.flightNumber);
+
   try {
-    const keys = Object.keys(updates);
-    const values = keys.map(key => updates[key]);
-
-    const setString = keys.map(key => `${key} = ?`).join(', ');
-    values.push(req.params.flightNumber);
-
     const [result] = await db.query(`UPDATE flights SET ${setString} WHERE flight_number = ?`, values);
     if (result.affectedRows === 0) {
-      return res.status(404).send();
+      return res.status(404).send('Flight not found');
     }
     res.send({ ...updates });
   } catch (error) {
@@ -66,9 +90,9 @@ router.delete('/flights/:flightNumber', async (req, res) => {
   try {
     const [result] = await db.query(`DELETE FROM flights WHERE flight_number = ?`, [req.params.flightNumber]);
     if (result.affectedRows === 0) {
-      return res.status(404).send();
+      return res.status(404).send('Flight not found');
     }
-    res.send({ message: 'Flight deleted successfully.' });
+    res.send({ message: 'Flight deleted successfully' });
   } catch (error) {
     res.status(500).send(error.message);
   }
