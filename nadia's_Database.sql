@@ -1,7 +1,8 @@
 CREATE DATABASE cs308_database;
 USE cs308_database;
 Create table Passenger (
-	PassengerID int auto_increment,
+	Email Varchar(50),
+	Password Varchar(50),
 	PassportNumber INT unique,
     CustomerName char(100)CHARACTER SET utf8mb4,
     Seat_Assigned varchar(5),
@@ -9,22 +10,22 @@ Create table Passenger (
     Age int,
     FlightNumber varchar(10),
     PhoneNumber varchar(20),
-    PRIMARY KEY (PassengerID)
+    PRIMARY KEY (Email)
     
 );
 ALTER TABLE Passenger CHANGE PhoneNumber PhoneNumber VARCHAR(20);
 
-INSERT INTO Passenger (PassportNumber, CustomerName, Seat_Assigned, Disabilities, Age, FlightNumber, PhoneNumber) VALUES
-(12345678, 'John Doe', '12A', 'None', 25, 'FL123', 5551234567),
-(23456789, 'Jane Smith', '13B', 'Mobility Challenges', 30, 'FL124', 5552345678),
-(34567890, 'Alice Johnson', '14C', 'Visual Impairment', 28, 'FL125', 5553456789),
-(45678901, 'Bob Brown', '15D', 'None', 45, 'FL126', 5554567890),
-(56789012, 'Carol White', '16E', 'Hearing Loss', 38, 'FL127', 5555678901),
-(67890123, 'Ahmad Ali', '21A', 'None', 34, 'FL201', 5566789012),
-(78901234, 'Layla Hussein', '22B', 'None', 29, 'FL202', 5567890123),
-(89012345, 'Mohammed Farah', '23C', 'Visual Impairment', 42, 'FL203', 5568901234),
-(90123456, 'Fatima Zahra', '24D', 'None', 27, 'FL204', 5569012345),
-(01234567, 'Yusuf Omar', '25E', 'Mobility Challenges', 36, 'FL205', 5560123456);
+INSERT INTO Passenger (Email, Password, PassportNumber, CustomerName, Seat_Assigned, Disabilities, Age, FlightNumber, PhoneNumber) VALUES
+('john.doe@example.com','password123',12345678, 'John Doe', '12A', 'None', 25, 'FL123', 5551234567),
+('jane.smith@example.com','password234',23456789, 'Jane Smith', '13B', 'Mobility Challenges', 30, 'FL124', 5552345678),
+('alice.johnson@example.com', 'password345',34567890, 'Alice Johnson', '14C', 'Visual Impairment', 28, 'FL125', 5553456789),
+('bob.brown@example.com','password456',45678901, 'Bob Brown', '15D', 'None', 45, 'FL126', 5554567890),
+('carol.white@example.com', 'password567'56789012, 'Carol White', '16E', 'Hearing Loss', 38, 'FL127', 5555678901),
+('ahmad.ali@example.com','password678',67890123, 'Ahmad Ali', '21A', 'None', 34, 'FL201', 5566789012),
+('layla.hussein@example.com', 'password789' ,78901234, 'Layla Hussein', '22B', 'None', 29, 'FL202', 5567890123),
+('mohammed.farah@example.com', 'password890',89012345, 'Mohammed Farah', '23C', 'Visual Impairment', 42, 'FL203', 5568901234),
+('fatima.zahra@example.com', 'password901', 90123456, 'Fatima Zahra', '24D', 'None', 27, 'FL204', 5569012345),
+('yusuf.omar@example.com', 'password012', 01234567, 'Yusuf Omar', '25E', 'Mobility Challenges', 36, 'FL205', 5560123456);
 
 Create table Aircraft (
 	AircraftID int,
@@ -75,19 +76,3 @@ VALUES
     ('FL009', 'O.R. Tambo International Airport', 'Abu Dhabi International Airport', '2024-05-09', '15:00:00', '19:15:00'),
     ('FL010', 'Cape Town International Airport', 'Kuwait International Airport', '2024-05-10', '17:30:00', '21:45:00');
 
-Create table Users (
-	Emails varchar(50),
-    Passwords Varchar (50)
-);
-INSERT INTO Users (Emails, Passwords)
-VALUES
-    ('john.doe@example.com', 'johndoe123'),
-    ('jane.smith@example.com', 'janepass123'),
-    ('michael.jones@example.com', 'mikepass456'),
-    ('emily.brown@example.com', 'emilypass789'),
-    ('david.wilson@example.com', 'davidpass321'),
-    ('sarah.miller@example.com', 'sarahpass654'),
-    ('james.taylor@example.com', 'jamespass987'),
-    ('laura.clark@example.com', 'laurapass123'),
-    ('robert.white@example.com', 'robertpass456'),
-    ('mary.hall@example.com', 'marypass789');
