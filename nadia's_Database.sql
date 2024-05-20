@@ -1,31 +1,89 @@
 CREATE DATABASE cs308_database;
 USE cs308_database;
 Create table Passenger (
-	Email Varchar(50),
-	Password Varchar(50),
-	PassportNumber INT unique,
+    Id INT int NOT NULL AUTO_INCREMENT,
+    PassportNumber INT unique,
     CustomerName char(100)CHARACTER SET utf8mb4,
     Seat_Assigned varchar(5),
     Disabilities Text,
     Age int,
     FlightNumber varchar(10),
     PhoneNumber varchar(20),
-    PRIMARY KEY (Email)
+    PRIMARY KEY (Id)
     
 );
-ALTER TABLE Passenger CHANGE PhoneNumber PhoneNumber VARCHAR(20);
+
 
 INSERT INTO Passenger (Email, Password, PassportNumber, CustomerName, Seat_Assigned, Disabilities, Age, FlightNumber, PhoneNumber) VALUES
-('john.doe@example.com','password123',12345678, 'John Doe', '12A', 'None', 25, 'FL123', 5551234567),
-('jane.smith@example.com','password234',23456789, 'Jane Smith', '13B', 'Mobility Challenges', 30, 'FL124', 5552345678),
-('alice.johnson@example.com', 'password345',34567890, 'Alice Johnson', '14C', 'Visual Impairment', 28, 'FL125', 5553456789),
-('bob.brown@example.com','password456',45678901, 'Bob Brown', '15D', 'None', 45, 'FL126', 5554567890),
-('carol.white@example.com', 'password567'56789012, 'Carol White', '16E', 'Hearing Loss', 38, 'FL127', 5555678901),
-('ahmad.ali@example.com','password678',67890123, 'Ahmad Ali', '21A', 'None', 34, 'FL201', 5566789012),
-('layla.hussein@example.com', 'password789' ,78901234, 'Layla Hussein', '22B', 'None', 29, 'FL202', 5567890123),
-('mohammed.farah@example.com', 'password890',89012345, 'Mohammed Farah', '23C', 'Visual Impairment', 42, 'FL203', 5568901234),
-('fatima.zahra@example.com', 'password901', 90123456, 'Fatima Zahra', '24D', 'None', 27, 'FL204', 5569012345),
-('yusuf.omar@example.com', 'password012', 01234567, 'Yusuf Omar', '25E', 'Mobility Challenges', 36, 'FL205', 5560123456);
+(12345678, 'John Doe', '12A', 'None', 25, 'FL123', 5551234567),
+(23456789, 'Jane Smith', '13B', 'Mobility Challenges', 30, 'FL124', 5552345678),
+(34567890, 'Alice Johnson', '14C', 'Visual Impairment', 28, 'FL125', 5553456789),
+(45678901, 'Bob Brown', '15D', 'None', 45, 'FL126', 5554567890),
+(56789012, 'Carol White', '16E', 'Hearing Loss', 38, 'FL127', 5555678901),
+(67890123, 'Ahmad Ali', '21A', 'None', 34, 'FL201', 5566789012),
+(78901234, 'Layla Hussein', '22B', 'None', 29, 'FL202', 5567890123),
+(89012345, 'Mohammed Farah', '23C', 'Visual Impairment', 42, 'FL203', 5568901234),
+(90123456, 'Fatima Zahra', '24D', 'None', 27, 'FL204', 5569012345),
+(01234567, 'Yusuf Omar', '25E', 'Mobility Challenges', 36, 'FL205', 5560123456);
+DROP TABLE users;
+ALTER TABLE passenger
+DROP COLUMN PassengerID;
+ALTER TABLE passenger
+ADD COLUMN Email VARCHAR(50),
+ADD COLUMN Passwords VARCHAR(50);
+ALTER TABLE passenger
+ADD PRIMARY KEY (Email);
+
+-- Update for John Doe
+UPDATE passenger
+SET Email = 'john.doe@example.com', Passwords = 'password123'
+WHERE PassportNumber = 12345678;
+
+-- Update for Jane Smith
+UPDATE passenger
+SET Email = 'jane.smith@example.com', Passwords = 'password234'
+WHERE PassportNumber = 23456789;
+
+-- Update for Alice Johnson
+UPDATE passenger
+SET Email = 'alice.johnson@example.com', Passwords = 'password345'
+WHERE PassportNumber = 34567890;
+
+-- Update for Bob Brown
+UPDATE passenger
+SET Email = 'bob.brown@example.com', Passwords = 'password456'
+WHERE PassportNumber = 45678901;
+
+-- Update for Carol White
+UPDATE passenger
+SET Email = 'carol.white@example.com', Passwords = 'password567'
+WHERE PassportNumber = 56789012;
+
+-- Update for Ahmad Ali
+UPDATE passenger
+SET Email = 'ahmad.ali@example.com', Passwords = 'password678'
+WHERE PassportNumber = 67890123;
+
+-- Update for Layla Hussein
+UPDATE passenger
+SET Email = 'layla.hussein@example.com', Passwords = 'password789'
+WHERE PassportNumber = 78901234;
+
+-- Update for Mohammed Farah
+UPDATE passenger
+SET Email = 'mohammed.farah@example.com', Passwords = 'password890'
+WHERE PassportNumber = 89012345;
+
+-- Update for Fatima Zahra
+UPDATE passenger
+SET Email = 'fatima.zahra@example.com', Passwords = 'password901'
+WHERE PassportNumber = 90123456;
+
+-- Update for Yusuf Omar
+UPDATE passenger
+SET Email = 'yusuf.omar@example.com', Passwords = 'password012'
+WHERE PassportNumber = 1234567;
+
 
 Create table Aircraft (
 	AircraftID int,
