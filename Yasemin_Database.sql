@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS RosterEntry (
 CREATE TABLE User (
     UserID INT AUTO_INCREMENT PRIMARY KEY,
     Email VARCHAR(100) UNIQUE NOT NULL,
-    Password VARCHAR(100) NOT NULL
+    Password VARCHAR(100) NOT NULL,
+    CHECK (CHAR_LENGTH(Password) >= 8)
 );
 
 CREATE TABLE Admins (
@@ -34,7 +35,6 @@ CREATE TABLE Admins (
     UserID INT UNIQUE,
     FOREIGN KEY (UserID) REFERENCES User(UserID) ON DELETE CASCADE
 );
-
 
 INSERT INTO Pilot (PilotName, LicenseNumber) VALUES 
     ("Jack Miller", "12345"),
@@ -73,16 +73,16 @@ INSERT INTO RosterEntry (PilotID, CrewID, FlightNumber, Date) VALUES
     (10, 10, 'FL010', '2024-05-10');
 
 INSERT INTO User (Email, Password) VALUES
-    ('user1@example.com', '10000001'),
-    ('user2@example.com', '10000002'),
-    ('user3@example.com', '10000003'),
-    ('user4@example.com', '10000004'),
-    ('user5@example.com', '10000005'),
-    ('user6@example.com', '10000006'),
-    ('user7@example.com', '10000007'),
-    ('user8@example.com', '10000008'),
-    ('user9@example.com', '10000009'),
-    ('user10@example.com', '10000010');
+    ('user1@example.com', 'password1'),
+    ('user2@example.com', 'password2'),
+    ('user3@example.com', 'password3'),
+    ('user4@example.com', 'password4'),
+    ('user5@example.com', 'password5'),
+    ('user6@example.com', 'password6'),
+    ('user7@example.com', 'password7'),
+    ('user8@example.com', 'password8'),
+    ('user9@example.com', 'password9'),
+    ('user10@example.com', 'password10');
 
 INSERT INTO Admins (AdminName, UserID) VALUES
     ('Admin1', 1),
