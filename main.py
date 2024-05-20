@@ -17,6 +17,8 @@ def insert_user(db, user_data):
 
 def insert_admin(db, admin_data):
     """Inserts a single admin document into the MongoDB collection."""
+    if len(admin_data['Password']) < 8:
+        raise ValueError("Password must be at least 8 characters long")
     admin_collection = db.admins
     result = admin_collection.insert_one(admin_data)
     return result.inserted_id
@@ -530,16 +532,16 @@ def delete_flight_roster_and_related_data(db, flight_number):
 #        insert_roster_entry(db, entry_data)
 
 #    admin_data = [
-#        {"AdminName": "Admin1", "Email": "user1@example.com", "Password": "10000001"},
-#        {"AdminName": "Admin2", "Email": "user2@example.com", "Password": "10000002"},
-#        {"AdminName": "Admin3", "Email": "user3@example.com", "Password": "10000003"},
-#        {"AdminName": "Admin4", "Email": "user4@example.com", "Password": "10000004"},
-#        {"AdminName": "Admin5", "Email": "user5@example.com", "Password": "10000005"},
-#        {"AdminName": "Admin6", "Email": "user6@example.com", "Password": "10000006"},
-#        {"AdminName": "Admin7", "Email": "user7@example.com", "Password": "10000007"},
-#        {"AdminName": "Admin8", "Email": "user8@example.com", "Password": "10000008"},
-#        {"AdminName": "Admin9", "Email": "user9@example.com", "Password": "10000009"},
-#        {"AdminName": "Admin10", "Email": "user10@example.com", "Password": "10000010"}
+#        {"AdminName": "Admin1", "Email": "user1@example.com", "Password": "password1"},
+#        {"AdminName": "Admin2", "Email": "user2@example.com", "Password": "password2"},
+#        {"AdminName": "Admin3", "Email": "user3@example.com", "Password": "password3"},
+#        {"AdminName": "Admin4", "Email": "user4@example.com", "Password": "password4"},
+#        {"AdminName": "Admin5", "Email": "user5@example.com", "Password": "password5"},
+#        {"AdminName": "Admin6", "Email": "user6@example.com", "Password": "password6"},
+#        {"AdminName": "Admin7", "Email": "user7@example.com", "Password": "password7"},
+#        {"AdminName": "Admin8", "Email": "user8@example.com", "Password": "password8"},
+#        {"AdminName": "Admin9", "Email": "user9@example.com", "Password": "password9"},
+#        {"AdminName": "Admin10", "Email": "user10@example.com", "Password": "password10"}
 #    ]
 
 #    for data in admin_data:
