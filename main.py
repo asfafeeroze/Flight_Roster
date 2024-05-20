@@ -37,6 +37,8 @@ def insert_aircraft(db, aircraft_data):
 
 def insert_passenger_info(db, passenger_info_data):
     """Inserts a single passenger information document into the MongoDB collection."""
+    if len(passenger_info_data['Password']) < 8:
+        raise ValueError("Password must be at least 8 characters long")
     passenger_info_collection = db.passenger_info
     passenger_info_collection.insert_one(passenger_info_data)
 
@@ -224,8 +226,13 @@ def main():
     # ]
 
  #     for passenger in passenger_data:
- #         inserted_id = insert_passenger_info(db, passenger)
- #         print(f"Inserted Passenger ID: {inserted_id}")
+        # try:
+        #         insert_passenger_info(db, passenger_info_data)
+        #     except ValueError as e:
+        #         print(e)
+        #         return
+    
+
  #    flight_data = [
  #        {"FlightNumber": "FL001", "DepartureAirport": "JFK International Airport", "ArrivalAirport": "Los Angeles International Airport", "FlightDate": "2024-05-01", "DepartureTime": "08:00:00", "ArrivalTime": "11:30:00"},
  #        {"FlightNumber": "FL002", "DepartureAirport": "Heathrow Airport", "ArrivalAirport": "Charles de Gaulle Airport", "FlightDate": "2024-05-02", "DepartureTime": "10:30:00", "ArrivalTime": "13:45:00"},
