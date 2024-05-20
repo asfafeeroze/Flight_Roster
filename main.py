@@ -1,7 +1,8 @@
 from connect import connectDB
 import bson
-# Insert functions
 
+
+# INSERT FUNCTIONS TO ADD TO COLLECTIONS
 def insert_cabin_crew(db, cabin_crew_data):
     """Inserts a single cabin crew document into the MongoDB collection."""
     cabin_crew_collection = db.cabin_crew
@@ -20,20 +21,17 @@ def insert_admin(db, admin_data):
     result = admin_collection.insert_one(admin_data)
     return result.inserted_id
 
-
 def insert_pilot(db, pilot_data):
     """Inserts a single pilot document into the MongoDB collection."""
     pilot_collection = db.pilots
     result = pilot_collection.insert_one(pilot_data)
     return result.inserted_id
 
-
 def insert_aircraft(db, aircraft_data):
     """Inserts a single aircraft document into the MongoDB collection."""
     aircraft_collection = db.aircraft
     result = aircraft_collection.insert_one(aircraft_data)
     return result.inserted_id
-
 
 def insert_passenger_info(db, passenger_info_data):
     """Inserts a single passenger information document into the MongoDB collection."""
@@ -42,13 +40,11 @@ def insert_passenger_info(db, passenger_info_data):
     passenger_info_collection = db.passenger_info
     passenger_info_collection.insert_one(passenger_info_data)
 
-
 def insert_flight_information(db, flight_information_data):
     """Inserts a single flight information document into the MongoDB collection."""
     flight_information_collection = db.flight_information
     result = flight_information_collection.insert_one(flight_information_data)
     return result.inserted_id
-
 
 def insert_roster_entry(db, roster_entry_data):
     """Inserts a single roster entry document into the MongoDB collection."""
@@ -84,7 +80,9 @@ def user_add_layout(db):
     aircraft_id = int(input("Enter the Aircraft ID to update: "))
     image_path = input("Enter the full path to the image file: ")
     update_aircraft_layout(db, aircraft_id, image_path)
-# User data insertion function
+
+# Prompt to ask user about data for collections.
+
 def input_document_data(prompts):
     """
     Prompt the user to enter data for fixed keys.
@@ -95,6 +93,9 @@ def input_document_data(prompts):
     for key, prompt in prompts.items():
         data[key] = input(prompt)  # Input values for each key based on the prompt.
     return data
+
+
+# QUERIES:
 
 def find_flights_by_airports(db, departure_airport, arrival_airport, flight_date):
     """Retrieve flights from the MongoDB collection based on specified departure and arrival airports on a given date."""
@@ -117,21 +118,25 @@ def find_flights_by_departure_airport(db, departure_airport, flight_date, arriva
         query["ArrivalAirport"] = arrival_airport
     flights = list(flight_information_collection.find(query))
     return flights
+
 def find_flight_by_number(db, flight_number):
     """Retrieve flight information from the MongoDB collection based on the specified flight number."""
     flight_information_collection = db.flight_information
     flight = flight_information_collection.find_one({"FlightNumber": flight_number})
     return flight
+
 def find_passengers_by_flight_number(db, flight_number):
     """Retrieve all passenger information from the MongoDB collection based on the specified flight number."""
     passenger_info_collection = db.passenger_info
     passengers = list(passenger_info_collection.find({"FlightNumber": flight_number}))
     return passengers
+
 def delete_aircraft_by_id(db, aircraft_id):
     """Delete an aircraft record from the MongoDB collection based on the specified aircraft ID."""
     aircraft_collection = db.aircraft
     result = aircraft_collection.delete_one({"AircraftID": aircraft_id})
     return result.deleted_count  # Returns the count of documents deleted
+
 def delete_flight_by_number(db, flight_number):
     """Delete a flight record from the MongoDB collection based on the specified flight number."""
     flight_information_collection = db.flight_information
@@ -140,213 +145,8 @@ def delete_flight_by_number(db, flight_number):
 
 def main():
     db = connectDB()
-    #parts for adding the information to MongoDB. 
-
-
- #    layout_images = {
- #        1: r'C:\Users\Randa Amin\OneDrive\Desktop\CS308\layout1.png',
- #        2: r'C:\Users\Randa Amin\OneDrive\Desktop\CS308\layout1.png',
- #        3: r'C:\Users\Randa Amin\OneDrive\Desktop\CS308\layout1.png',
- #        # Add paths for all aircraft
- #    }
- #    aircraft_data = [
- #        {"_id": 1, "AircraftID": 1, "AircraftType": "Boeing 747", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 500, "Model": "747-400"},
- #        {"_id": 2, "AircraftID": 2, "AircraftType": "Airbus A320", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 200, "Model": "A320neo"},
- #        {"_id": 3, "AircraftID": 3, "AircraftType": "Boeing 777", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 400, "Model": "777-300ER"},
- #        {"_id": 4, "AircraftID": 4, "AircraftType": "Airbus A380", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 800, "Model": "A380-800"},
- #        {"_id": 5, "AircraftID": 5, "AircraftType": "Boeing 737", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 150, "Model": "737-800"},
- #        {"_id": 6, "AircraftID": 6, "AircraftType": "Airbus A350", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 300, "Model": "A350-900"},
- #        {"_id": 7, "AircraftID": 7, "AircraftType": "Embraer E175", "Manufacturer": "Embraer", "Layout": get_image_data(layout_images[1]), "Capacity": 80, "Model": "E175"},
- #        {"_id": 8, "AircraftID": 8, "AircraftType": "Bombardier CRJ900", "Manufacturer": "Bombardier", "Layout": get_image_data(layout_images[1]), "Capacity": 90, "Model": "CRJ900"},
- #        {"_id": 9, "AircraftID": 9, "AircraftType": "Boeing 787", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 250, "Model": "787-9"},
- #        {"_id": 10, "AircraftID": 10, "AircraftType": "Airbus A330", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 300, "Model": "A330-300"}
- #    ]
-
- #  for aircraft in aircraft_data:
- #        print("Inserting Aircraft:", aircraft["AircraftID"])
- #        if aircraft["Layout"] is not None:  # Only insert if the layout image was found and loaded
- #            inserted_id = insert_aircraft(db, aircraft)
- #            print(f"Aircraft ID {aircraft['AircraftID']} inserted with ID: {inserted_id}")
- #        else:
- #            print(f"Failed to insert Aircraft ID {aircraft['AircraftID']}: Layout image not found")
-    
-
-# # Sample passenger data with the specified attributes
-  # passenger_data = [
-    #     {
-    #         "Email": "john.doe@example.com", "Password": "password123", "PassportNumber": 12345678,
-    #         "CustomerName": "John Doe", "Seat_Assigned": "12A", "Disabilities": "None", "Age": 25,
-    #         "FlightNumber": "FL123", "PhoneNumber": 5551234567
-    #     },
-    #     {
-    #         "Email": "jane.smith@example.com", "Password": "password234", "PassportNumber": 23456789,
-    #         "CustomerName": "Jane Smith", "Seat_Assigned": "13B", "Disabilities": "Mobility Challenges", "Age": 30,
-    #         "FlightNumber": "FL124", "PhoneNumber": 5552345678
-    #     },
-    #     {
-    #         "Email": "alice.johnson@example.com", "Password": "password345", "PassportNumber": 34567890,
-    #         "CustomerName": "Alice Johnson", "Seat_Assigned": "14C", "Disabilities": "Visual Impairment", "Age": 28,
-    #         "FlightNumber": "FL125", "PhoneNumber": 5553456789
-    #     },
-    #     {
-    #         "Email": "bob.brown@example.com", "Password": "password456", "PassportNumber": 45678901,
-    #         "CustomerName": "Bob Brown", "Seat_Assigned": "15D", "Disabilities": "None", "Age": 45,
-    #         "FlightNumber": "FL126", "PhoneNumber": 5554567890
-    #     },
-    #     {
-    #         "Email": "carol.white@example.com", "Password": "password567", "PassportNumber": 56789012,
-    #         "CustomerName": "Carol White", "Seat_Assigned": "16E", "Disabilities": "Hearing Loss", "Age": 38,
-    #         "FlightNumber": "FL127", "PhoneNumber": 5555678901
-    #     },
-    #     {
-    #         "Email": "ahmad.ali@example.com", "Password": "password678", "PassportNumber": 67890123,
-    #         "CustomerName": "Ahmad Ali", "Seat_Assigned": "21A", "Disabilities": "None", "Age": 34,
-    #         "FlightNumber": "FL201", "PhoneNumber": 5566789012
-    #     },
-    #     {
-    #         "Email": "layla.hussein@example.com", "Password": "password789", "PassportNumber": 78901234,
-    #         "CustomerName": "Layla Hussein", "Seat_Assigned": "22B", "Disabilities": "None", "Age": 29,
-    #         "FlightNumber": "FL202", "PhoneNumber": 5567890123
-    #     },
-    #     {
-    #         "Email": "mohammed.farah@example.com", "Password": "password890", "PassportNumber": 89012345,
-    #         "CustomerName": "Mohammed Farah", "Seat_Assigned": "23C", "Disabilities": "Visual Impairment", "Age": 42,
-    #         "FlightNumber": "FL203", "PhoneNumber": 5568901234
-    #     },
-    #     {
-    #         "Email": "fatima.zahra@example.com", "Password": "password901", "PassportNumber": 90123456,
-    #         "CustomerName": "Fatima Zahra", "Seat_Assigned": "24D", "Disabilities": "None", "Age": 27,
-    #         "FlightNumber": "FL204", "PhoneNumber": 5569012345
-    #     },
-    #     {
-    #         "Email": "yusuf.omar@example.com", "Password": "password012", "PassportNumber": 12378905,
-    #         "CustomerName": "Yusuf Omar", "Seat_Assigned": "25E", "Disabilities": "Mobility Challenges", "Age": 36,
-    #         "FlightNumber": "FL205", "PhoneNumber": 5560123456
-    #     }
-    # ]
-
- #     for passenger in passenger_data:
-        # try:
-        #         insert_passenger_info(db, passenger_info_data)
-        #     except ValueError as e:
-        #         print(e)
-        #         return
-    
-
- #    flight_data = [
- #        {"FlightNumber": "FL001", "DepartureAirport": "JFK International Airport", "ArrivalAirport": "Los Angeles International Airport", "FlightDate": "2024-05-01", "DepartureTime": "08:00:00", "ArrivalTime": "11:30:00"},
- #        {"FlightNumber": "FL002", "DepartureAirport": "Heathrow Airport", "ArrivalAirport": "Charles de Gaulle Airport", "FlightDate": "2024-05-02", "DepartureTime": "10:30:00", "ArrivalTime": "13:45:00"},
- #        {"FlightNumber": "FL003", "DepartureAirport": "Dubai International Airport", "ArrivalAirport": "Singapore Changi Airport", "FlightDate": "2024-05-03", "DepartureTime": "12:15:00", "ArrivalTime": "18:30:00"},
- #        {"FlightNumber": "FL004", "DepartureAirport": "Sydney Airport", "ArrivalAirport": "Tokyo Haneda Airport", "FlightDate": "2024-05-04", "DepartureTime": "14:45:00", "ArrivalTime": "20:00:00"},
- #        {"FlightNumber": "FL005", "DepartureAirport": "Beijing Capital International Airport", "ArrivalAirport": "Hong Kong International Airport", "FlightDate": "2024-05-05", "DepartureTime": "16:30:00", "ArrivalTime": "19:45:00"},
- #        {"FlightNumber": "FL006", "DepartureAirport": "Cairo International Airport", "ArrivalAirport": "King Abdulaziz International Airport", "FlightDate": "2024-05-06", "DepartureTime": "09:30:00", "ArrivalTime": "12:45:00"},
- #        {"FlightNumber": "FL007", "DepartureAirport": "Addis Ababa Bole International Airport", "ArrivalAirport": "Hamad International Airport", "FlightDate": "2024-05-07", "DepartureTime": "11:45:00", "ArrivalTime": "16:00:00"},
- #        {"FlightNumber": "FL008", "DepartureAirport": "Jomo Kenyatta International Airport", "ArrivalAirport": "King Khalid International Airport", "FlightDate": "2024-05-08", "DepartureTime": "13:15:00", "ArrivalTime": "17:30:00"},
- #        {"FlightNumber": "FL009", "DepartureAirport": "O.R. Tambo International Airport", "ArrivalAirport": "Abu Dhabi International Airport", "FlightDate": "2024-05-09", "DepartureTime": "15:00:00", "ArrivalTime": "19:15:00"},
- #        {"FlightNumber": "FL010", "DepartureAirport": "Cape Town International Airport", "ArrivalAirport": "Kuwait International Airport", "FlightDate": "2024-05-10", "DepartureTime": "17:30:00", "ArrivalTime": "21:45:00"}
- #    ]
-    
- #    for flight in flight_data:
- #        print("Inserting Flight:", flight["FlightNumber"])
- #        inserted_id = insert_flight_information(db, flight)
-        flights_collection = db["flight_information"]
-
-# # adding the flight price data. 
-#     flight_data = [
-#         {"FlightNumber": "FL001", "Price": 300},
-#         {"FlightNumber": "FL002", "Price": 150},
-#         {"FlightNumber": "FL003", "Price": 500},
-#         {"FlightNumber": "FL004", "Price": 450},
-#         {"FlightNumber": "FL005", "Price": 200},
-#         {"FlightNumber": "FL006", "Price": 250},
-#         {"FlightNumber": "FL007", "Price": 350},
-#         {"FlightNumber": "FL008", "Price": 400},
-#         {"FlightNumber": "FL009", "Price": 600},
-#         {"FlightNumber": "FL010", "Price": 550}
-#     ]
-
-# # Update each flight document with the new price
-#     for flight in flight_data:
-#         flight_number = flight["FlightNumber"]
-#         price = flight["Price"]
-        
-#         result = flights_collection.update_one(
-#             {"FlightNumber": flight_number},  # Find the document by FlightNumber
-#             {"$set": {"Price": price}}        # Set the new Price field
-#     )
-    
- #    pilot_data = [
- #        {"PilotID": 1, "PilotName": "Jack Miller", "LicenseNumber": "12345"},
- #        {"PilotID": 2, "PilotName": "Brian Taylor", "LicenseNumber": "67890"},
- #        {"PilotID": 3, "PilotName": "Brandon Davis", "LicenseNumber": "54321"},
- #        {"PilotID": 4, "PilotName": "John Smith", "LicenseNumber": "11111"},
- #        {"PilotID": 5, "PilotName": "Jane Doe", "LicenseNumber": "22222"},
- #        {"PilotID": 6, "PilotName": "Michael Johnson", "LicenseNumber": "33333"},
- #        {"PilotID": 7, "PilotName": "Emily Brown", "LicenseNumber": "44444"},
- #        {"PilotID": 8, "PilotName": "Chris Wilson", "LicenseNumber": "55555"},
- #        {"PilotID": 9, "PilotName": "Sarah Thompson", "LicenseNumber": "66666"},
- #        {"PilotID": 10, "PilotName": "David Martinez", "LicenseNumber": "77777"}
- #    ]
-
- #    for pilots_data in pilot_data:
- #        insert_pilot(db, pilots_data)
-    
- #    cabin_crew_data = [
- #        {"CrewID": 1, "Role": "First Officer", "MemberName": "Sarah Wilson", "AssignedSeat": "A1"},
- #        {"CrewID": 2, "Role": "Flight Attendant", "MemberName": "Jessica Johnson", "AssignedSeat": "B2"},
- #        {"CrewID": 3, "Role": "Purser", "MemberName": "Kevin White", "AssignedSeat": "C3"},
- #        {"CrewID": 4, "Role": "Cabin Crew", "MemberName": "Alex Martin", "AssignedSeat": "D4"},
- #        {"CrewID": 5, "Role": "Senior Flight Attendant", "MemberName": "Lisa Garcia", "AssignedSeat": "E5"},
- #        {"CrewID": 6, "Role": "Cabin Manager", "MemberName": "Ryan Jones", "AssignedSeat": "F6"},
- #        {"CrewID": 7, "Role": "Junior Flight Attendant", "MemberName": "Michelle Lee", "AssignedSeat": "G7"},
- #        {"CrewID": 8, "Role": "Cabin Attendant", "MemberName": "Andrew Clark", "AssignedSeat": "H8"},
- #        {"CrewID": 9, "Role": "Senior Purser", "MemberName": "Stephanie Rodriguez", "AssignedSeat": "I9"},
- #        {"CrewID": 10, "Role": "Junior Purser", "MemberName": "Tyler Hall", "AssignedSeat": "J10"}
- #    ]
-
- #    for crew_data in cabin_crew_data:
- #        insert_cabin_crew(db, crew_data)
-    
- #    roster_entry_data = [
- #        {"RosterID": 1, "PilotID": 1, "CrewID": 1, "FlightNumber": "FL001", "Date": "2024-05-01"},
- #        {"RosterID": 2, "PilotID": 2, "CrewID": 2, "FlightNumber": "FL001", "Date": "2024-05-02"},
- #        {"RosterID": 3, "PilotID": 3, "CrewID": 3, "FlightNumber": "FL001", "Date": "2024-05-03"},
- #        {"RosterID": 4, "PilotID": 4, "CrewID": 4, "FlightNumber": "FL001", "Date": "2024-05-04"},
- #        {"RosterID": 5, "PilotID": 5, "CrewID": 5, "FlightNumber": "FL001", "Date": "2024-05-05"},
- #        {"RosterID": 6, "PilotID": 6, "CrewID": 6, "FlightNumber": "FL001", "Date": "2024-05-06"},
- #        {"RosterID": 7, "PilotID": 7, "CrewID": 7, "FlightNumber": "FL001", "Date": "2024-05-07"},
- #        {"RosterID": 8, "PilotID": 8, "CrewID": 8, "FlightNumber": "FL001", "Date": "2024-05-08"},
- #        {"RosterID": 9, "PilotID": 9, "CrewID": 9, "FlightNumber": "FL001", "Date": "2024-05-09"},
- #        {"RosterID": 10, "PilotID": 10, "CrewID": 10, "FlightNumber": "FL001", "Date": "2024-05-10"}
- #    ]
-
- #    for entry_data in roster_entry_data:
- #        insert_roster_entry(db, entry_data)
-    
- #    admin_data = [
- #        {"AdminName": "Admin1", "Email": "user1@example.com", "Password": "10000001"},
- #        {"AdminName": "Admin2", "Email": "user2@example.com", "Password": "10000002"},
- #        {"AdminName": "Admin3", "Email": "user3@example.com", "Password": "10000003"},
- #        {"AdminName": "Admin4", "Email": "user4@example.com", "Password": "10000004"},
- #        {"AdminName": "Admin5", "Email": "user5@example.com", "Password": "10000005"},
- #        {"AdminName": "Admin6", "Email": "user6@example.com", "Password": "10000006"},
- #        {"AdminName": "Admin7", "Email": "user7@example.com", "Password": "10000007"},
- #        {"AdminName": "Admin8", "Email": "user8@example.com", "Password": "10000008"},
- #        {"AdminName": "Admin9", "Email": "user9@example.com", "Password": "10000009"},
- #        {"AdminName": "Admin10", "Email": "user10@example.com", "Password": "10000010"}
- #    ]
-
- #    for data in admin_data:
- #        insert_admin(db, data)
-
     
     # Define prompts for each collection
-    user_prompts = {
-        "Email": "Enter User Email: ",
-        "Password": "Enter User Password: ",
-        "Role": "Enter Role (Passenger/Admin): "
-    }
-
     cabin_crew_prompts = {
         "CrewID": "Enter Crew ID: ",
         "MemberName": "Enter Cabin Crew Member Name: ",
@@ -364,14 +164,14 @@ def main():
         "Layout": "Enter Layout: "
     }
 
-# INPUT AND INSERT FUNCTION FOR USER AND AIRCRAFT
-    user_data = input_document_data(user_prompts)
-    user_id = insert_user(db, user_data)  # Store user data with role
+# INPUT AND INSERT FUNCTION FOR AIRCRAFT
 
     aircraft_data = input_document_data(aircraft_prompts)
     aircraft_id = insert_aircraft(db, aircraft_data)
 
     passenger_info_prompts = {
+        "Email": "Enter Email: ",
+        "Password": "Enter Password: ",
         "PassportNumber": "Enter Passport Number: ",
         "CustomerName": "Enter Customer Name: ",
         "Seat_Assigned": "Enter Seat Assigned: ",
@@ -390,6 +190,7 @@ def main():
         "Price": "Enter Flight Price: ",  # price
     }
 
+
     pilot_prompts = {
         "PilotID": "Enter Pilot ID: ",
         "PilotName": "Enter Pilot Name: ",
@@ -398,7 +199,8 @@ def main():
 
     admin_prompts = {
         "AdminName": "Enter Admin Name: ",
-        "PhoneNumber": "Enter Admin Phone Number: "
+        "Email": "Enter Admin Email: ",
+        "Password": "Enter Admin Password"
     }
 
     # Collect data from user
@@ -414,27 +216,6 @@ def main():
     pilot_id = insert_pilot(db, pilot_data)
     flight_id = insert_flight_information(db, flight_information_data)
     cabin_crew_id = insert_cabin_crew(db, cabin_crew_data)
-
-    if user_data['Role'].lower() == 'passenger':
-        passenger_info_prompts = {
-            "PassportNumber": "Enter Passport Number: ",
-            "CustomerName": "Enter Customer Name: ",
-            "Seat_Assigned": "Enter Seat Assigned: ",
-            "Disabilities": "Enter any Disabilities: ",
-            "Age": "Enter Age: ",
-            "PhoneNumber": "Enter Phone Number: ",
-            "UserID": user_id  # Linking passenger info to user
-        }
-        passenger_info_data = input_document_data(passenger_info_prompts)
-        insert_passenger_info(db, passenger_info_data)
-    elif user_data['Role'].lower() == 'admin':
-        admin_prompts = {
-            "AdminName": "Enter Admin Name: ",
-            "PhoneNumber": "Enter Admin Phone Number: ",
-            "UserID": user_id  # Linking admin info to user
-        }
-        admin_data = input_document_data(admin_prompts)
-        insert_admin(db, admin_data)
 
     # Prepare and insert roster entry data automatically using aircraft_id and flight_id
     roster_entry_data = {
@@ -567,6 +348,202 @@ def delete_flight_roster_and_related_data(db, flight_number):
         "Passenger Bookings Deleted": passenger_booking_delete_result.deleted_count,
     }
 
+    # Parts for adding the information to MongoDB.
+
+    #    layout_images = {
+    #        1: r'C:\Users\Randa Amin\OneDrive\Desktop\CS308\layout1.png',
+    #        2: r'C:\Users\Randa Amin\OneDrive\Desktop\CS308\layout1.png',
+    #        3: r'C:\Users\Randa Amin\OneDrive\Desktop\CS308\layout1.png',
+    #        # Add paths for all aircraft
+    #    }
+    #    aircraft_data = [
+    #        {"_id": 1, "AircraftID": 1, "AircraftType": "Boeing 747", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 500, "Model": "747-400"},
+    #        {"_id": 2, "AircraftID": 2, "AircraftType": "Airbus A320", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 200, "Model": "A320neo"},
+    #        {"_id": 3, "AircraftID": 3, "AircraftType": "Boeing 777", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 400, "Model": "777-300ER"},
+    #        {"_id": 4, "AircraftID": 4, "AircraftType": "Airbus A380", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 800, "Model": "A380-800"},
+    #        {"_id": 5, "AircraftID": 5, "AircraftType": "Boeing 737", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 150, "Model": "737-800"},
+    #        {"_id": 6, "AircraftID": 6, "AircraftType": "Airbus A350", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 300, "Model": "A350-900"},
+    #        {"_id": 7, "AircraftID": 7, "AircraftType": "Embraer E175", "Manufacturer": "Embraer", "Layout": get_image_data(layout_images[1]), "Capacity": 80, "Model": "E175"},
+    #        {"_id": 8, "AircraftID": 8, "AircraftType": "Bombardier CRJ900", "Manufacturer": "Bombardier", "Layout": get_image_data(layout_images[1]), "Capacity": 90, "Model": "CRJ900"},
+    #        {"_id": 9, "AircraftID": 9, "AircraftType": "Boeing 787", "Manufacturer": "Boeing", "Layout": get_image_data(layout_images[1]), "Capacity": 250, "Model": "787-9"},
+    #        {"_id": 10, "AircraftID": 10, "AircraftType": "Airbus A330", "Manufacturer": "Airbus", "Layout": get_image_data(layout_images[1]), "Capacity": 300, "Model": "A330-300"}
+    #    ]
+
+    #  for aircraft in aircraft_data:
+    #        print("Inserting Aircraft:", aircraft["AircraftID"])
+    #        if aircraft["Layout"] is not None:  # Only insert if the layout image was found and loaded
+    #            inserted_id = insert_aircraft(db, aircraft)
+    #            print(f"Aircraft ID {aircraft['AircraftID']} inserted with ID: {inserted_id}")
+    #        else:
+    #            print(f"Failed to insert Aircraft ID {aircraft['AircraftID']}: Layout image not found")
+
+    # # Sample passenger data with the specified attributes
+    # passenger_data = [
+    #     {
+    #         "Email": "john.doe@example.com", "Password": "password123", "PassportNumber": 12345678,
+    #         "CustomerName": "John Doe", "Seat_Assigned": "12A", "Disabilities": "None", "Age": 25,
+    #         "FlightNumber": "FL123", "PhoneNumber": 5551234567
+    #     },
+    #     {
+    #         "Email": "jane.smith@example.com", "Password": "password234", "PassportNumber": 23456789,
+    #         "CustomerName": "Jane Smith", "Seat_Assigned": "13B", "Disabilities": "Mobility Challenges", "Age": 30,
+    #         "FlightNumber": "FL124", "PhoneNumber": 5552345678
+    #     },
+    #     {
+    #         "Email": "alice.johnson@example.com", "Password": "password345", "PassportNumber": 34567890,
+    #         "CustomerName": "Alice Johnson", "Seat_Assigned": "14C", "Disabilities": "Visual Impairment", "Age": 28,
+    #         "FlightNumber": "FL125", "PhoneNumber": 5553456789
+    #     },
+    #     {
+    #         "Email": "bob.brown@example.com", "Password": "password456", "PassportNumber": 45678901,
+    #         "CustomerName": "Bob Brown", "Seat_Assigned": "15D", "Disabilities": "None", "Age": 45,
+    #         "FlightNumber": "FL126", "PhoneNumber": 5554567890
+    #     },
+    #     {
+    #         "Email": "carol.white@example.com", "Password": "password567", "PassportNumber": 56789012,
+    #         "CustomerName": "Carol White", "Seat_Assigned": "16E", "Disabilities": "Hearing Loss", "Age": 38,
+    #         "FlightNumber": "FL127", "PhoneNumber": 5555678901
+    #     },
+    #     {
+    #         "Email": "ahmad.ali@example.com", "Password": "password678", "PassportNumber": 67890123,
+    #         "CustomerName": "Ahmad Ali", "Seat_Assigned": "21A", "Disabilities": "None", "Age": 34,
+    #         "FlightNumber": "FL201", "PhoneNumber": 5566789012
+    #     },
+    #     {
+    #         "Email": "layla.hussein@example.com", "Password": "password789", "PassportNumber": 78901234,
+    #         "CustomerName": "Layla Hussein", "Seat_Assigned": "22B", "Disabilities": "None", "Age": 29,
+    #         "FlightNumber": "FL202", "PhoneNumber": 5567890123
+    #     },
+    #     {
+    #         "Email": "mohammed.farah@example.com", "Password": "password890", "PassportNumber": 89012345,
+    #         "CustomerName": "Mohammed Farah", "Seat_Assigned": "23C", "Disabilities": "Visual Impairment", "Age": 42,
+    #         "FlightNumber": "FL203", "PhoneNumber": 5568901234
+    #     },
+    #     {
+    #         "Email": "fatima.zahra@example.com", "Password": "password901", "PassportNumber": 90123456,
+    #         "CustomerName": "Fatima Zahra", "Seat_Assigned": "24D", "Disabilities": "None", "Age": 27,
+    #         "FlightNumber": "FL204", "PhoneNumber": 5569012345
+    #     },
+    #     {
+    #         "Email": "yusuf.omar@example.com", "Password": "password012", "PassportNumber": 12378905,
+    #         "CustomerName": "Yusuf Omar", "Seat_Assigned": "25E", "Disabilities": "Mobility Challenges", "Age": 36,
+    #         "FlightNumber": "FL205", "PhoneNumber": 5560123456
+    #     }
+    # ]
+
+    #     for passenger in passenger_data:
+    # try:
+    #         insert_passenger_info(db, passenger_info_data)
+    #     except ValueError as e:
+    #         print(e)
+    #         return
+
+    #    flight_data = [
+    #        {"FlightNumber": "FL001", "DepartureAirport": "JFK International Airport", "ArrivalAirport": "Los Angeles International Airport", "FlightDate": "2024-05-01", "DepartureTime": "08:00:00", "ArrivalTime": "11:30:00"},
+    #        {"FlightNumber": "FL002", "DepartureAirport": "Heathrow Airport", "ArrivalAirport": "Charles de Gaulle Airport", "FlightDate": "2024-05-02", "DepartureTime": "10:30:00", "ArrivalTime": "13:45:00"},
+    #        {"FlightNumber": "FL003", "DepartureAirport": "Dubai International Airport", "ArrivalAirport": "Singapore Changi Airport", "FlightDate": "2024-05-03", "DepartureTime": "12:15:00", "ArrivalTime": "18:30:00"},
+    #        {"FlightNumber": "FL004", "DepartureAirport": "Sydney Airport", "ArrivalAirport": "Tokyo Haneda Airport", "FlightDate": "2024-05-04", "DepartureTime": "14:45:00", "ArrivalTime": "20:00:00"},
+    #        {"FlightNumber": "FL005", "DepartureAirport": "Beijing Capital International Airport", "ArrivalAirport": "Hong Kong International Airport", "FlightDate": "2024-05-05", "DepartureTime": "16:30:00", "ArrivalTime": "19:45:00"},
+    #        {"FlightNumber": "FL006", "DepartureAirport": "Cairo International Airport", "ArrivalAirport": "King Abdulaziz International Airport", "FlightDate": "2024-05-06", "DepartureTime": "09:30:00", "ArrivalTime": "12:45:00"},
+    #        {"FlightNumber": "FL007", "DepartureAirport": "Addis Ababa Bole International Airport", "ArrivalAirport": "Hamad International Airport", "FlightDate": "2024-05-07", "DepartureTime": "11:45:00", "ArrivalTime": "16:00:00"},
+    #        {"FlightNumber": "FL008", "DepartureAirport": "Jomo Kenyatta International Airport", "ArrivalAirport": "King Khalid International Airport", "FlightDate": "2024-05-08", "DepartureTime": "13:15:00", "ArrivalTime": "17:30:00"},
+    #        {"FlightNumber": "FL009", "DepartureAirport": "O.R. Tambo International Airport", "ArrivalAirport": "Abu Dhabi International Airport", "FlightDate": "2024-05-09", "DepartureTime": "15:00:00", "ArrivalTime": "19:15:00"},
+    #        {"FlightNumber": "FL010", "DepartureAirport": "Cape Town International Airport", "ArrivalAirport": "Kuwait International Airport", "FlightDate": "2024-05-10", "DepartureTime": "17:30:00", "ArrivalTime": "21:45:00"}
+    #    ]
+
+    #    for flight in flight_data:
+    #        print("Inserting Flight:", flight["FlightNumber"])
+    #        inserted_id = insert_flight_information(db, flight)
+    # flights_collection = db["flight_information"]
+
+
+# # adding the flight price data.
+#     flight_data = [
+#         {"FlightNumber": "FL001", "Price": 300},
+#         {"FlightNumber": "FL002", "Price": 150},
+#         {"FlightNumber": "FL003", "Price": 500},
+#         {"FlightNumber": "FL004", "Price": 450},
+#         {"FlightNumber": "FL005", "Price": 200},
+#         {"FlightNumber": "FL006", "Price": 250},
+#         {"FlightNumber": "FL007", "Price": 350},
+#         {"FlightNumber": "FL008", "Price": 400},
+#         {"FlightNumber": "FL009", "Price": 600},
+#         {"FlightNumber": "FL010", "Price": 550}
+#     ]
+
+# # Update each flight document with the new price
+#     for flight in flight_data:
+#         flight_number = flight["FlightNumber"]
+#         price = flight["Price"]
+
+#         result = flights_collection.update_one(
+#             {"FlightNumber": flight_number},  # Find the document by FlightNumber
+#             {"$set": {"Price": price}}        # Set the new Price field
+#     )
+
+#    pilot_data = [
+#        {"PilotID": 1, "PilotName": "Jack Miller", "LicenseNumber": "12345"},
+#        {"PilotID": 2, "PilotName": "Brian Taylor", "LicenseNumber": "67890"},
+#        {"PilotID": 3, "PilotName": "Brandon Davis", "LicenseNumber": "54321"},
+#        {"PilotID": 4, "PilotName": "John Smith", "LicenseNumber": "11111"},
+#        {"PilotID": 5, "PilotName": "Jane Doe", "LicenseNumber": "22222"},
+#        {"PilotID": 6, "PilotName": "Michael Johnson", "LicenseNumber": "33333"},
+#        {"PilotID": 7, "PilotName": "Emily Brown", "LicenseNumber": "44444"},
+#        {"PilotID": 8, "PilotName": "Chris Wilson", "LicenseNumber": "55555"},
+#        {"PilotID": 9, "PilotName": "Sarah Thompson", "LicenseNumber": "66666"},
+#        {"PilotID": 10, "PilotName": "David Martinez", "LicenseNumber": "77777"}
+#    ]
+
+#    for pilots_data in pilot_data:
+#        insert_pilot(db, pilots_data)
+
+#    cabin_crew_data = [
+#        {"CrewID": 1, "Role": "First Officer", "MemberName": "Sarah Wilson", "AssignedSeat": "A1"},
+#        {"CrewID": 2, "Role": "Flight Attendant", "MemberName": "Jessica Johnson", "AssignedSeat": "B2"},
+#        {"CrewID": 3, "Role": "Purser", "MemberName": "Kevin White", "AssignedSeat": "C3"},
+#        {"CrewID": 4, "Role": "Cabin Crew", "MemberName": "Alex Martin", "AssignedSeat": "D4"},
+#        {"CrewID": 5, "Role": "Senior Flight Attendant", "MemberName": "Lisa Garcia", "AssignedSeat": "E5"},
+#        {"CrewID": 6, "Role": "Cabin Manager", "MemberName": "Ryan Jones", "AssignedSeat": "F6"},
+#        {"CrewID": 7, "Role": "Junior Flight Attendant", "MemberName": "Michelle Lee", "AssignedSeat": "G7"},
+#        {"CrewID": 8, "Role": "Cabin Attendant", "MemberName": "Andrew Clark", "AssignedSeat": "H8"},
+#        {"CrewID": 9, "Role": "Senior Purser", "MemberName": "Stephanie Rodriguez", "AssignedSeat": "I9"},
+#        {"CrewID": 10, "Role": "Junior Purser", "MemberName": "Tyler Hall", "AssignedSeat": "J10"}
+#    ]
+
+#    for crew_data in cabin_crew_data:
+#        insert_cabin_crew(db, crew_data)
+
+#    roster_entry_data = [
+#        {"RosterID": 1, "PilotID": 1, "CrewID": 1, "FlightNumber": "FL001", "Date": "2024-05-01"},
+#        {"RosterID": 2, "PilotID": 2, "CrewID": 2, "FlightNumber": "FL001", "Date": "2024-05-02"},
+#        {"RosterID": 3, "PilotID": 3, "CrewID": 3, "FlightNumber": "FL001", "Date": "2024-05-03"},
+#        {"RosterID": 4, "PilotID": 4, "CrewID": 4, "FlightNumber": "FL001", "Date": "2024-05-04"},
+#        {"RosterID": 5, "PilotID": 5, "CrewID": 5, "FlightNumber": "FL001", "Date": "2024-05-05"},
+#        {"RosterID": 6, "PilotID": 6, "CrewID": 6, "FlightNumber": "FL001", "Date": "2024-05-06"},
+#        {"RosterID": 7, "PilotID": 7, "CrewID": 7, "FlightNumber": "FL001", "Date": "2024-05-07"},
+#        {"RosterID": 8, "PilotID": 8, "CrewID": 8, "FlightNumber": "FL001", "Date": "2024-05-08"},
+#        {"RosterID": 9, "PilotID": 9, "CrewID": 9, "FlightNumber": "FL001", "Date": "2024-05-09"},
+#        {"RosterID": 10, "PilotID": 10, "CrewID": 10, "FlightNumber": "FL001", "Date": "2024-05-10"}
+#    ]
+
+#    for entry_data in roster_entry_data:
+#        insert_roster_entry(db, entry_data)
+
+#    admin_data = [
+#        {"AdminName": "Admin1", "Email": "user1@example.com", "Password": "10000001"},
+#        {"AdminName": "Admin2", "Email": "user2@example.com", "Password": "10000002"},
+#        {"AdminName": "Admin3", "Email": "user3@example.com", "Password": "10000003"},
+#        {"AdminName": "Admin4", "Email": "user4@example.com", "Password": "10000004"},
+#        {"AdminName": "Admin5", "Email": "user5@example.com", "Password": "10000005"},
+#        {"AdminName": "Admin6", "Email": "user6@example.com", "Password": "10000006"},
+#        {"AdminName": "Admin7", "Email": "user7@example.com", "Password": "10000007"},
+#        {"AdminName": "Admin8", "Email": "user8@example.com", "Password": "10000008"},
+#        {"AdminName": "Admin9", "Email": "user9@example.com", "Password": "10000009"},
+#        {"AdminName": "Admin10", "Email": "user10@example.com", "Password": "10000010"}
+#    ]
+
+#    for data in admin_data:
+#        insert_admin(db, data)
 
 
 if __name__ == '__main__':
