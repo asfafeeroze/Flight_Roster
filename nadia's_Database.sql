@@ -85,6 +85,36 @@ SET Email = 'yusuf.omar@example.com', Passwords = 'password012'
 WHERE PassportNumber = 1234567;
 
 
+DELIMITER //
+
+CREATE TRIGGER before_insert_passenger
+BEFORE INSERT ON passenger
+FOR EACH ROW
+BEGIN
+    IF LENGTH(NEW.Passwords) < 8 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Password must be at least 8 characters long';
+    END IF;
+END;
+
+//
+
+DELIMITER ;
+DELIMITER //
+
+CREATE TRIGGER before_update_passenger
+BEFORE UPDATE ON passenger
+FOR EACH ROW
+BEGIN
+    IF LENGTH(NEW.Passwords) < 8 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Password must be at least 8 characters long';
+    END IF;
+END;
+
+//
+
+DELIMITER ;
+
+
 Create table Aircraft (
 	AircraftID int,
     AircraftType varchar(100),
