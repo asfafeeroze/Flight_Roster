@@ -22,10 +22,20 @@ def connectDB():
 
 # BELOW CODE IS FOR PROVIDING THE USER THE UTILITY TO CHOOSE BETWEEN NoSQL and MySQL
 
-# Load configuration from config.json
-# with open('config.json') as config_file:
-#     config = json.load(config_file)
-#
+# config = {
+#     "mysql": {
+#         "host": "localhost",
+#         "user": "your_mysql_user",
+#         "password": "your_mysql_password",
+#         "database": "your_mysql_database"
+#     },
+#     "mongodb": {
+#         "host": "localhost",
+#         "port": 27017,
+#         "database": "your_mongodb_database"
+#     }
+# }
+
 # def connect_mysql():
 #     mysql_config = config['mysql']
 #     engine = create_engine(f'mysql+mysqlconnector://{mysql_config["user"]}:{mysql_config["password"]}@{mysql_config["host"]}/{mysql_config["database"]}')
@@ -68,3 +78,5 @@ def connectDB():
 # def export_roster_to_json(roster, file_path='roster.json'):
 #     with open(file_path, 'w') as json_file:
 #         json.dump(roster, json_file)
+#
+

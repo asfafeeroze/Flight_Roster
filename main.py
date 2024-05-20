@@ -545,6 +545,28 @@ def delete_flight_roster_and_related_data(db, flight_number):
 #    for data in admin_data:
 #        insert_admin(db, data)
 
+# Example usage for connect.py functions:
+# data = {
+#     "column1": "value1",
+#     "column2": "value2"
+# }
+#
+# # Connect to MySQL
+# engine, session = connect_mysql()
+# store_roster_mysql(engine, session, data)
+# retrieved_rosters_mysql = retrieve_roster_mysql(session)
+# print("Retrieved rosters from MySQL:", retrieved_rosters_mysql)
+#
+# # Connect to MongoDB
+# db = connect_nosql()
+# store_roster_nosql(db, data)
+# retrieved_rosters_nosql = retrieve_roster_nosql(db)
+# print("Retrieved rosters from MongoDB:", retrieved_rosters_nosql)
+#
+# # Export to JSON file
+# export_roster_to_json(retrieved_rosters_mysql, 'roster_mysql.json')
+# export_roster_to_json(retrieved_rosters_nosql, 'roster_nosql.json')
+
 
 if __name__ == '__main__':
     main()
