@@ -9,11 +9,6 @@ def insert_cabin_crew(db, cabin_crew_data):
     result = cabin_crew_collection.insert_one(cabin_crew_data)
     return result.inserted_id
 
-def insert_user(db, user_data):
-    """Inserts a single user document into the MongoDB collection."""
-    user_collection = db.users
-    result = user_collection.insert_one(user_data)
-    return result.inserted_id
 
 def insert_admin(db, admin_data):
     """Inserts a single admin document into the MongoDB collection."""
